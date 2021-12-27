@@ -30,18 +30,17 @@ class Song {
      * @return {boolean} true if the playlist is repeating, false if not.
      */
     isRepeatingPlaylist() {
-        const playlist = [];
-        if (playlist.length === 0){
-            playlist.push(this.name);
-            return false;
-        }
-        for (let i = 0; i < playlist.length; i++) {
-            if (playlist[i] !== this.nextSong.name){
-                playlist.push(this.nextSong.name);
-                return false;
+        let currenSong = this;
+        let visitSong = [];
+
+            while (currenSong !== undefined) {
+                if (visitSong.includes(currenSong.name)){
+                    return true;
+                }
+                visitSong.push(currenSong.name);
+                currenSong = currenSong.nextSong;
             }
-            return true;
-        }
+            return false;
 
     }
 }
@@ -51,10 +50,19 @@ let second = new Song("Eye of the tiger");
 let third = new Song("Toma");
 
 first.nextSong = second;
-second.nextSong = first;
-third.nextSong = third;
+second.nextSong = third;
+//third.nextSong = third;
 
 console.log(first.isRepeatingPlaylist());
+
+/*
+Hello
+Eye of the tiger
+Hello
+Eye of the tiger
+Hello
+ */
+
 
 
 /*
